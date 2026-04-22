@@ -16,6 +16,18 @@
 #define ADJUST 3
 
 / {
+    /* macOS usually ignores HID "globe" on non-Apple keyboards. This sends the
+     * default shortcut for "Select next source in Input menu" (⌃⌥Space).
+     * Enable it under System Settings → Keyboard → Keyboard Shortcuts → Input Sources. */
+    macros {
+        mac_next_input: mac_next_input {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <10>;
+            bindings = <&macro_press &kp LCTRL &macro_press &kp LALT &macro_tap &kp SPACE &macro_release &kp LALT &macro_release &kp LCTRL>;
+        };
+    };
 
    // Activate ADJUST layer by pressing raise and lower
     conditional_layers {
@@ -77,7 +89,7 @@
 // |       | UNDO | CUT  | COPY  | PASTE |      |      |  |      |      |      |       |      |       |       |
 //                |      |       |       |      |      |  |      |      |      |       |      |
             bindings = <
-&bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4                  &trans    &trans    &trans   &trans    &trans  &kp GLOBE
+&bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4                  &trans    &trans    &trans   &trans    &trans  &mac_next_input
 &trans     &kp INS      &kp PSCRN    &kp K_CMENU  &trans       &trans                        &trans    &trans    &trans   &trans    &kp N0  &trans
 &trans     &kp LALT     &kp LCTRL    &kp LSHFT    &trans       &kp CLCK                      &kp LEFT  &kp DOWN  &kp UP   &kp RIGHT &kp DEL &kp BSPC
 &trans     &kp K_UNDO   &kp K_CUT    &kp K_COPY   &kp K_PASTE  &trans        &trans  &trans  &trans    &trans    &trans   &trans    &trans  &trans
